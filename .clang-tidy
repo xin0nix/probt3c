@@ -1,0 +1,17 @@
+---
+
+# We want all the check to be enabled
+Checks: >
+    'clang-diagnostic-*,
+    clang-analyzer-*,
+    bugprone-*,
+    cppcoreguidelines-*,
+    modernize-*,
+    performance-*,
+    readability-*,
+    misc-*',
+    -modernize-use-trailing-return-type
+WarningsAsErrors: '*'
+HeaderFilterRegex: ''
+FormatStyle:         google
+...
