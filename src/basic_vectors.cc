@@ -18,5 +18,20 @@ int longest_true_seq(const vector<bool> &xs) {
   }
   return max;
 }
+
+int count_even_digit_nums(const vector<int> &xs) {
+  int sum{0};
+  for (int x : xs) {
+    int c{0};
+    while (x > 0) {
+      x /= 10;
+      c++;
+    }
+    if (c % 2 == 0) {
+      sum++;
+    }
+  }
+  return sum;
+}
 }  // namespace basic
 }  // namespace vectors
