@@ -1,6 +1,6 @@
-#include "BasicArrays.hpp"
+#include "basic_vectors.h"
 
-namespace arrays {
+namespace vectors {
 namespace basic {
 using namespace std;
 int longest_true_seq(const vector<bool> &xs) {
@@ -19,4 +19,4 @@ int longest_true_seq(const vector<bool> &xs) {
   return max;
 }
 }  // namespace basic
-}  // namespace arrays
+}  // namespace vectors

@@ -1,13 +1,13 @@
-#ifndef BASIC_ARRAYS_HPP
-#define BASIC_ARRAYS_HPP
+#ifndef BASIC_VECTORS_HPP
+#define BASIC_VECTORS_HPP
 
 #include <vector>
 
-namespace arrays {
+namespace vectors {
 namespace basic {
 using namespace std;
 int longest_true_seq(const vector<bool> &xs);
 }  // namespace basic
-}  // namespace arrays
+}  // namespace vectors
 
-#endif  // BASIC_ARRAYS_HPP
+#endif  // BASIC_VECTORS_HPP

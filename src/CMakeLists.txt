@@ -1,5 +1,10 @@
-# Compile as a static lib and link
-add_library(BasicArrays STATIC BasicArrays.cpp)
-target_include_directories(BasicArrays PUBLIC ${PROBT3C_INCLUDE_DIRECTORIES})
-list(APPEND PROBT3C_LIBRARIES ${CMAKE_CURRENT_BINARY_DIR}/libBasicArrays.a)
-set(PROBT3C_LIBRARIES ${PROBT3C_LIBRARIES} PARENT_SCOPE)
+add_library(probt3c_impl
+    basic_vectors.cc
+)
+add_executable(probt3c_exec probt3c.cc)
+target_link_libraries(probt3c_exec probt3c_impl)
+set_target_properties(probt3c_exec
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+install(TARGETS probt3c_exec)
