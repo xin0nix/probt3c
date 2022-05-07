@@ -19,6 +19,22 @@ int longest_true_seq(const vector<bool> &xs) {
   return max;
 }
 
+int count_valleys(const vector<bool> &xs) {
+  int level = 0;
+  int valleys = 0;
+  for (int x : xs) {
+    switch (x) {
+      case true:  // up
+        if (level++ == -1) valleys++;
+        break;
+      case false:  // down
+        level--;
+        break;
+    }
+  }
+  return valleys;
+}
+
 int count_even_digit_nums(const vector<int> &xs) {
   int sum{0};
   for (int x : xs) {

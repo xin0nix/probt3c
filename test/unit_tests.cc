@@ -32,6 +32,18 @@ TEST_F(BasicArrays, Basic) {
               2);
   }
   {
+    SCOPED_TRACE("count_valleys");
+    EXPECT_THAT(vectors::basic::count_valleys({}), 0);
+    EXPECT_THAT(vectors::basic::count_valleys({true, false}), 0);
+    EXPECT_THAT(
+        vectors::basic::count_valleys({true, true, false, true, false, false}),
+        0);
+    EXPECT_THAT(vectors::basic::count_valleys({false, true}), 1);
+    EXPECT_THAT(
+        vectors::basic::count_valleys({false, false, true, false, true, true}),
+        1);
+  }
+  {
     SCOPED_TRACE("count_even_digit_nums");
     EXPECT_EQ(vectors::basic::count_even_digit_nums({}), 0);
     EXPECT_EQ(vectors::basic::count_even_digit_nums({1}), 0);
