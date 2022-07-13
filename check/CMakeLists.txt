@@ -7,5 +7,12 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(rapidcheck)
 
 add_executable(check check.cc)
-target_link_libraries(check gtest rapidcheck probt3c_impl)
-target_include_directories(check PRIVATE ${CMAKE_SOURCE_DIR})
+target_link_libraries(check
+  probt3c_impl
+  gtest
+  rapidcheck
+)
+target_include_directories(check PRIVATE 
+  ${CMAKE_SOURCE_DIR} 
+  ${rapidcheck_SOURCE_DIR}/extras/gtest/include/
+)
