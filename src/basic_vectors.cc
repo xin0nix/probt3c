@@ -3,11 +3,11 @@
 namespace vectors {
 namespace basic {
 using namespace std;
-int longest_true_seq(const vector<bool> &xs) {
+int longest_true_seq(const vector<bool> &sequence) {
   int max = 0;
   int cur = 0;
-  for (auto x : xs) {
-    if (!x) {
+  for (auto val : sequence) {
+    if (!val) {
       cur = 0;
     } else {
       cur += 1;
@@ -19,31 +19,32 @@ int longest_true_seq(const vector<bool> &xs) {
   return max;
 }
 
-int count_valleys(const vector<bool> &xs) {
+int count_valleys(const vector<bool> &steps) {
   int level = 0;
   int valleys = 0;
-  for (int x : xs) {
-    switch (x) {
-      case true:  // up
-        if (level++ == -1) valleys++;
-        break;
-      case false:  // down
-        level--;
-        break;
+  for (auto step : steps) {
+    if (step) {
+      if (level++ == -1) {
+        valleys++;
+      }
+    } else {
+      level--;
     }
   }
+
   return valleys;
 }
 
-int count_even_digit_nums(const vector<int> &xs) {
+int count_even_digit_nums(const vector<int> &numbers) {
   int sum{0};
-  for (int x : xs) {
-    int c{0};
-    while (x > 0) {
-      x /= 10;
-      c++;
+  const int base = 10;
+  for (int num : numbers) {
+    int cnt{0};
+    while (num > 0) {
+      num /= base;
+      cnt++;
     }
-    if (c % 2 == 0) {
+    if (cnt % 2 == 0) {
       sum++;
     }
   }

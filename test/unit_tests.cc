@@ -14,10 +14,10 @@ namespace {
 
 using ::testing::ElementsAre;
 
-class BasicArrays : public ::testing::Test {};
+class BasicVectors : public ::testing::Test {};
 class CountEvenDigitNums : public ::testing::Test {};
 
-TEST_F(BasicArrays, Basic) {
+TEST_F(BasicVectors, Basic) {
   {
     SCOPED_TRACE("longest_true_seq");
     EXPECT_EQ(vectors::basic::longest_true_seq({}), 0);
