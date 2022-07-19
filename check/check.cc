@@ -79,6 +79,52 @@ RC_GTEST_PROP(RepeatedString, BruteForceCheck, ()) {
   }
 }
 
+RC_GTEST_PROP(HourglassSum, BruteForceCheckPositive, ()) {
+  vectors::basic::hourglass_ty hours;
+  for (int n = 0; n < 6; ++n) {
+    for (int k = 0; k < 6; ++k) {
+      hours[n][k] = *rc::gen::inRange(-10, 10);
+    }
+  }
+  int target = *rc::gen::inRange(0, 15);
+  int counter = 0;
+  int max = 0;
+  vectors::basic::hourglass_visitor(hours, [&](std::array<int *, 7> hour) {
+    if (counter == target) {
+      for (int i = 0; i < 7; ++i) {
+        int next = *rc::gen::inRange(100, 200);
+        max += next;
+        *hour[i] = next;
+      }
+    }
+    ++counter;
+  });
+  RC_ASSERT(max == vectors::basic::hourglass_sum(hours));
+}
+
+RC_GTEST_PROP(HourglassSum, BruteForceCheckNegative, ()) {
+  vectors::basic::hourglass_ty hours;
+  for (int n = 0; n < 6; ++n) {
+    for (int k = 0; k < 6; ++k) {
+      hours[n][k] = *rc::gen::inRange(-200, -100);
+    }
+  }
+  int target = *rc::gen::inRange(0, 15);
+  int counter = 0;
+  int max = 0;
+  vectors::basic::hourglass_visitor(hours, [&](std::array<int *, 7> hour) {
+    if (counter == target) {
+      for (int i = 0; i < 7; ++i) {
+        int next = *rc::gen::inRange(-10, -5);
+        max += next;
+        *hour[i] = next;
+      }
+    }
+    ++counter;
+  });
+  RC_ASSERT(max == vectors::basic::hourglass_sum(hours));
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
