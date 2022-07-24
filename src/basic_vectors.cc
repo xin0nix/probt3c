@@ -8,8 +8,8 @@
 
 namespace vectors {
 namespace basic {
-using namespace std;
-int longest_true_seq(const vector<bool> &sequence) {
+
+int longest_true_seq(const std::vector<bool> &sequence) {
   int max = 0;
   int cur = 0;
   for (auto val : sequence) {
@@ -25,7 +25,7 @@ int longest_true_seq(const vector<bool> &sequence) {
   return max;
 }
 
-int count_valleys(const vector<bool> &steps) {
+int count_valleys(const std::vector<bool> &steps) {
   int level = 0;
   int valleys = 0;
   for (auto step : steps) {
@@ -41,7 +41,7 @@ int count_valleys(const vector<bool> &steps) {
   return valleys;
 }
 
-int count_even_digit_nums(const vector<int> &numbers) {
+int count_even_digit_nums(const std::vector<int> &numbers) {
   int sum{0};
   const int base = 10;
   for (int num : numbers) {
@@ -58,7 +58,7 @@ int count_even_digit_nums(const vector<int> &numbers) {
 }
 
 void hourglass_visitor(hourglass_ty &arr,
-                       function<void(array<int *, 7>)> &&callback) {
+                       std::function<void(std::array<int *, 7>)> &&callback) {
   // we assume vector has the right shape
   for (int n = 0; n < 4; ++n) {
     auto &top = arr[n];
@@ -76,18 +76,19 @@ void hourglass_visitor(hourglass_ty &arr,
 }
 
 int hourglass_sum(hourglass_ty &arr) {
-  int sum = numeric_limits<int>::min();
-  hourglass_visitor(arr, [&](array<int *, 7> hours) {
+  int sum = std::numeric_limits<int>::min();
+  hourglass_visitor(arr, [&](std::array<int *, 7> hours) {
     int cur = 0;
     for (auto *h : hours) {
       cur += *h;
     }
-    sum = max(sum, cur);
+    sum = std::max(sum, cur);
   });
   return sum;
 }
 
-vector<int> rotate_left_prime(vector<int> &&arr, const size_t rotations) {
+std::vector<int> rotate_left_prime(std::vector<int> &&arr,
+                                   const size_t rotations) {
   if (arr.empty() || rotations % arr.size() == 0UL) {
     return std::move(arr);
   }

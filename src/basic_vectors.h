@@ -7,17 +7,17 @@
 
 namespace vectors {
 namespace basic {
-using namespace std;
 
-using hourglass_ty = array<array<int, 6>, 6>;
+using hourglass_ty = std::array<std::array<int, 6>, 6>;
 
-int longest_true_seq(const vector<bool> &sequence);
-int count_valleys(const vector<bool> &steps);
-int count_even_digit_nums(const vector<int> &numbers);
+int longest_true_seq(const std::vector<bool> &sequence);
+int count_valleys(const std::vector<bool> &steps);
+int count_even_digit_nums(const std::vector<int> &numbers);
 void hourglass_visitor(hourglass_ty &arr,
-                       function<void(array<int *, 7>)> &&callback);
+                       std::function<void(std::array<int *, 7>)> &&callback);
 int hourglass_sum(hourglass_ty &arr);
-vector<int> rotate_left_prime(vector<int> &&arr, const size_t rotations);
+std::vector<int> rotate_left_prime(std::vector<int> &&arr,
+                                   const size_t rotations);
 }  // namespace basic
 }  // namespace vectors
 
