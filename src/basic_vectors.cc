@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <iostream>
+#include <numeric>
 
 namespace vectors {
 namespace basic {
@@ -83,6 +85,23 @@ int hourglass_sum(hourglass_ty &arr) {
     sum = max(sum, cur);
   });
   return sum;
+}
+
+vector<int> rotate_left_prime(vector<int> &&arr, const size_t rotations) {
+  if (arr.empty() || rotations % arr.size() == 0UL) {
+    return std::move(arr);
+  }
+  size_t shift = rotations % arr.size();
+  // we can rotate in O(n) if both "arr" and "shift" are prime numbers
+  int tmp = arr[0UL];
+  arr[0UL] = arr[shift];
+  size_t step = arr.size() - shift;
+  size_t next = step % arr.size();
+  for (size_t i = 1UL; i < arr.size(); ++i) {
+    std::swap(tmp, arr[next]);
+    next = (next + step) % arr.size();
+  }
+  return std::move(arr);
 }
 
 }  // namespace basic

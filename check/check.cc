@@ -2,7 +2,10 @@
 #include <rapidcheck/gtest.h>
 
 #include <algorithm>
+#include <initializer_list>
 #include <iostream>
+#include <map>
+#include <numeric>
 #include <vector>
 
 #include "src/basic_strings.h"
@@ -123,6 +126,32 @@ RC_GTEST_PROP(HourglassSum, BruteForceCheckNegative, ()) {
     ++counter;
   });
   RC_ASSERT(max == vectors::basic::hourglass_sum(hours));
+}
+
+RC_GTEST_PROP(RotateLeftPrime, SplitAndConcatCheck, ()) {
+  std::vector<size_t> primes{1UL, 2UL, 3UL, 5UL, 7UL, 11UL, 13UL, 17UL, 19UL};
+  auto generator = rc::gen::elementOf(primes);
+  size_t len = *generator;
+  size_t rotations = *generator;
+  size_t shift = rotations % len;
+  // 1 2 3 4 5
+  std::vector<int> original(len);
+  // rotate: 3, len: 5
+  // 1 2 3 | 4 5 <-- rotate 3 times left
+  std::iota(original.begin(), original.end(), 1);
+  // len(expected) = len - rotate == 2
+  // pefix[0] = rotate + 1 == 4
+  // expected : 4 5
+  std::vector<int> expected(len - shift);
+  std::iota(expected.begin(), expected.end(), shift + 1);
+  // len(tail) = rotate == 3
+  // tail: 1 2 3
+  std::vector<int> tail(shift);
+  std::iota(tail.begin(), tail.end(), 1);
+  // now tail contains fully rotated vector
+  std::copy(tail.begin(), tail.end(), std::back_inserter(expected));
+  auto actual = vectors::basic::rotate_left_prime(std::move(original), rotations);
+  RC_ASSERT(std::equal(expected.begin(), expected.end(), actual.begin()));
 }
 
 int main(int argc, char **argv) {
