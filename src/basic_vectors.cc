@@ -105,5 +105,43 @@ std::vector<int> rotate_left_prime(std::vector<int> &&arr,
   return std::move(arr);
 }
 
+std::vector<int> rotate_left(std::vector<int> &&arr, const size_t rotations) {
+  if (arr.empty() || rotations % arr.size() == 0UL) {
+    return std::move(arr);
+  }
+  const size_t len = arr.size();
+  const size_t shift = rotations % len;
+  const size_t groups = std::gcd(len, shift);
+  // arr:
+  // a b c d e
+  // shift 3:
+  // d e a b c
+  //
+  // next: 3, 1(6), 4, 2(7), 5!
+  //
+  // a b c d e a b c d e a b c d e a b c d e
+  // _ . . < . . < . . < . . < . . !
+  //
+  for (size_t group = 0; group < groups; ++group) {
+    int first_in_group = arr[group];
+    size_t idx = group;
+
+    for (;;) {
+      size_t next = idx + shift;
+      if (next >= len) {
+        next = next - len;
+      }
+      if (next == group) {
+        break;
+      }
+      arr[idx] = arr[next];
+      idx = next;
+    }
+
+    arr[idx] = first_in_group;
+  }
+  return std::move(arr);
+}
+
 }  // namespace basic
 }  // namespace vectors

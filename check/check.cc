@@ -13,6 +13,14 @@
 
 // class LongestTrueSeq : public ::testing::Test {};
 
+template <typename T>
+void show(std::string &&title, const std::vector<T> &vals) {
+  std::cerr << title << ":\n";
+  std::copy(vals.cbegin(), vals.cend(),
+            std::ostream_iterator<T>(std::cerr, ", "));
+  std::cerr << "\n";
+}
+
 RC_GTEST_PROP(LongestTrueSeq, ReverseCheck,
               (const std::vector<bool> &original)) {
   {  // reverse check
@@ -150,7 +158,37 @@ RC_GTEST_PROP(RotateLeftPrime, SplitAndConcatCheck, ()) {
   std::iota(tail.begin(), tail.end(), 1);
   // now tail contains fully rotated vector
   std::copy(tail.begin(), tail.end(), std::back_inserter(expected));
-  auto actual = vectors::basic::rotate_left_prime(std::move(original), rotations);
+  auto actual =
+      vectors::basic::rotate_left_prime(std::move(original), rotations);
+  RC_ASSERT(std::equal(expected.begin(), expected.end(), actual.begin()));
+}
+
+RC_GTEST_PROP(RotateLeft, SplitAndConcatCheck, ()) {
+  auto generator = rc::gen::weightedOneOf({
+      std::make_pair(1UL, rc::gen::inRange(1UL, 3UL)),
+      std::make_pair(3UL, rc::gen::inRange(4UL, 9UL)),
+      std::make_pair(5UL, rc::gen::inRange(10UL, 19UL)),
+  });
+  size_t len = *generator;
+  size_t rotations = *generator;
+  size_t shift = rotations % len;
+  // 1 2 3 4 5
+  std::vector<int> original(len);
+  // rotate: 3, len: 5
+  // 1 2 3 | 4 5 <-- rotate 3 times left
+  std::iota(original.begin(), original.end(), 1);
+  // len(expected) = len - rotate == 2
+  // pefix[0] = rotate + 1 == 4
+  // expected : 4 5
+  std::vector<int> expected(len - shift);
+  std::iota(expected.begin(), expected.end(), shift + 1);
+  // len(tail) = rotate == 3
+  // tail: 1 2 3
+  std::vector<int> tail(shift);
+  std::iota(tail.begin(), tail.end(), 1);
+  // now tail contains fully rotated vector
+  std::copy(tail.begin(), tail.end(), std::back_inserter(expected));
+  auto actual = vectors::basic::rotate_left(std::move(original), rotations);
   RC_ASSERT(std::equal(expected.begin(), expected.end(), actual.begin()));
 }
 

@@ -18,6 +18,7 @@ void hourglass_visitor(hourglass_ty &arr,
 int hourglass_sum(hourglass_ty &arr);
 std::vector<int> rotate_left_prime(std::vector<int> &&arr,
                                    const size_t rotations);
+std::vector<int> rotate_left(std::vector<int> &&arr, const size_t rotations);
 }  // namespace basic
 }  // namespace vectors
 
