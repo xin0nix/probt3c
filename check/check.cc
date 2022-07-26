@@ -192,6 +192,37 @@ RC_GTEST_PROP(RotateLeft, SplitAndConcatCheck, ()) {
   RC_ASSERT(std::equal(expected.begin(), expected.end(), actual.begin()));
 }
 
+RC_GTEST_PROP(FindDuplicates, RandomInsertionCheck, ()) {
+  auto push_back = rc::gen::inRange(0, 1);
+  auto pick_repeats = rc::gen::inRange(1, 3);
+  int max_num = *rc::gen::inRange(1, 7);
+  std::list<int> sequence;
+  std::set<int> repeated_numbers;
+  for (int num = 0; num <= max_num; ++num) {
+    auto repeats = *pick_repeats;
+    if (repeats > 1) {
+      repeated_numbers.emplace(num);
+    }
+    for (int r = 1; r <= repeats; ++r) {
+      if (*push_back) {
+        sequence.push_back(num);
+      } else {
+        sequence.push_front(num);
+      }
+    }
+  }
+  if (repeated_numbers.empty()) {
+    repeated_numbers.emplace(-1);
+  }
+  std::vector<int> original;
+  std::copy(sequence.begin(), sequence.end(), std::back_inserter(original));
+  std::vector<int> expected;
+  std::copy(repeated_numbers.begin(), repeated_numbers.end(),
+            std::back_inserter(expected));
+  std::vector<int> actual = vectors::basic::find_duplicates(original);
+  RC_ASSERT(std::equal(expected.begin(), expected.end(), actual.begin()));
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

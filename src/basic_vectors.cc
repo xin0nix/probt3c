@@ -143,5 +143,28 @@ std::vector<int> rotate_left(std::vector<int> &&arr, const size_t rotations) {
   return std::move(arr);
 }
 
+std::vector<int> find_duplicates(const std::vector<int> &arr) {
+  int len = static_cast<int>(arr.size());
+  std::vector<int> res(len, 0);
+  for (int i = 0; i < len; ++i) {
+    res[arr[i]]++;
+  }
+  int head = 0;
+  for (int tail = 0; tail < len; ++tail) {
+    if (res[tail] > 1) {
+      res[head] = tail;
+      head++;
+    }
+  }
+  if (head == 0) {
+    // if we resized first, it would lead to additional allocation
+    res[0] = -1;
+    res.resize(1);
+  } else {
+    res.resize(head);
+  }
+  return res;
+}
+
 }  // namespace basic
 }  // namespace vectors
