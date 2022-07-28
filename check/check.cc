@@ -223,6 +223,27 @@ RC_GTEST_PROP(FindDuplicates, RandomInsertionCheck, ()) {
   RC_ASSERT(std::equal(expected.begin(), expected.end(), actual.begin()));
 }
 
+RC_GTEST_PROP(FindMissingNumber, ShuffleCheck, ()) {
+  auto pick_num = rc::gen::inRange(1, 10);
+  auto pick_direction = rc::gen::element('l', 'r');
+  int expected = *pick_num;
+  int len = std::max(*pick_num, expected + 1);
+  std::list<int> nums;
+  for (int num = 1; num <= len; ++num) {
+    if (num != expected) {
+      if (*pick_direction == 'r') {
+        nums.emplace_back(num);
+      } else {
+        nums.emplace_front(num);
+      }
+    }
+  }
+  std::vector<int> original;
+  std::copy(nums.begin(), nums.end(), std::back_inserter(original));
+  int actual = vectors::basic::find_missing_number(original);
+  RC_ASSERT(expected == actual);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

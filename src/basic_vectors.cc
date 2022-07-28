@@ -166,5 +166,15 @@ std::vector<int> find_duplicates(const std::vector<int> &arr) {
   return res;
 }
 
+int find_missing_number(const std::vector<int> &arr) {
+  if (arr.empty()) {
+    return 0;
+  }
+  int n = static_cast<int>(arr.size());
+  int area = ((n + 1) * (n + 2)) / 2;
+  int total = std::accumulate(arr.cbegin(), arr.cend(), 0);
+  return area - total;
+}
+
 }  // namespace basic
 }  // namespace vectors
