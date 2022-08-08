@@ -61,7 +61,8 @@ TEST_F(BasicVectors, Basic) {
     EXPECT_THAT(vectors::basic::rotate_left_prime({1}, 100), ElementsAre(1));
     EXPECT_THAT(vectors::basic::rotate_left_prime({1, 2, 3, 4, 5}, 2),
                 ElementsAre(3, 4, 5, 1, 2));
-    EXPECT_THAT(vectors::basic::rotate_left_prime({1, 2}, 1), ElementsAre(2, 1));
+    EXPECT_THAT(vectors::basic::rotate_left_prime({1, 2}, 1),
+                ElementsAre(2, 1));
     EXPECT_THAT(vectors::basic::rotate_left_prime({1, 2, 3, 4, 5, 6, 7}, 4),
                 ElementsAre(5, 6, 7, 1, 2, 3, 4));
   }

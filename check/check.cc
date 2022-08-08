@@ -21,6 +21,14 @@ void show(std::string &&title, const std::vector<T> &vals) {
   std::cerr << "\n";
 }
 
+template <typename T>
+void show(std::string &&title, const std::set<T> &vals) {
+  std::cerr << title << ":\n";
+  std::copy(vals.cbegin(), vals.cend(),
+            std::ostream_iterator<T>(std::cerr, ", "));
+  std::cerr << "\n";
+}
+
 RC_GTEST_PROP(LongestTrueSeq, ReverseCheck,
               (const std::vector<bool> &original)) {
   {  // reverse check
@@ -220,6 +228,25 @@ RC_GTEST_PROP(FindMissingNumber, ShuffleCheck, ()) {
   std::copy(nums.begin(), nums.end(), std::back_inserter(original));
   int actual = vectors::basic::find_missing_number(original);
   RC_ASSERT(expected == actual);
+}
+
+RC_GTEST_PROP(FindPeak, ConstructiveCheck, ()) {
+  auto len = *rc::gen::inRange(10UL, 19UL);
+  auto expected = *rc::gen::inRange(0UL, len - 1UL);
+  int cur = *rc::gen::element(-10, 10);
+  auto pick_step = rc::gen::inRange(1, 3);
+  std::vector<int> arr;
+  arr.reserve(len);
+  for (size_t idx = 0UL; idx < len; ++idx) {
+    if (idx > expected) {
+      cur -= *pick_step;
+    } else {
+      cur += *pick_step;
+    }
+    arr.push_back(cur);
+  }
+  auto actual = vectors::basic::find_peak(arr);
+  RC_ASSERT(static_cast<int>(expected) == actual);
 }
 
 int main(int argc, char **argv) {

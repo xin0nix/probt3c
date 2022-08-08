@@ -105,6 +105,8 @@ std::vector<int> rotate_left_prime(std::vector<int> &&arr,
   return std::move(arr);
 }
 
+// great explanation here:
+// https://stackoverflow.com/questions/23321216/rotating-an-array-using-juggling-algorithm
 std::vector<int> rotate_left(std::vector<int> &&arr, const size_t rotations) {
   if (arr.empty() || rotations % arr.size() == 0UL) {
     return std::move(arr);
@@ -129,7 +131,7 @@ std::vector<int> rotate_left(std::vector<int> &&arr, const size_t rotations) {
     for (;;) {
       size_t next = idx + shift;
       if (next >= len) {
-        next = next - len;
+        next = next % len;
       }
       if (next == group) {
         break;
@@ -174,6 +176,25 @@ int find_missing_number(const std::vector<int> &arr) {
   int area = ((n + 1) * (n + 2)) / 2;
   int total = std::accumulate(arr.cbegin(), arr.cend(), 0);
   return area - total;
+}
+
+int find_peak(const std::vector<int> &arr) {
+  const int n = static_cast<int>(arr.size());
+  int left = 0;
+  int right = n - 1;
+  while (left <= right) {
+    int mid = (left + right) / 2;
+    if ((mid == 0 || arr[mid] >= arr[mid - 1]) &&
+        (mid == n - 1 || arr[mid] >= arr[mid + 1])) {
+      return mid;
+    }
+    if (mid > 0 && arr[mid] < arr[mid - 1]) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
+    }
+  }
+  return -1;
 }
 
 }  // namespace basic
