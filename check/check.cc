@@ -11,22 +11,35 @@
 #include "src/basic_strings.h"
 #include "src/basic_vectors.h"
 
-// class LongestTrueSeq : public ::testing::Test {};
-
-template <typename T>
-void show(std::string &&title, const std::vector<T> &vals) {
-  std::cerr << title << ":\n";
-  std::copy(vals.cbegin(), vals.cend(),
-            std::ostream_iterator<T>(std::cerr, ", "));
-  std::cerr << "\n";
+template <class RandomIt>
+void rc_shuffle(RandomIt first, RandomIt last) {
+  typename std::iterator_traits<RandomIt>::difference_type i, n;
+  n = last - first;
+  for (i = n - 1; i > 0; --i) {
+    std::swap(
+        first[i],
+        first[*rc::gen::inRange(0, std::numeric_limits<int>::max()) % (i + 1)]);
+  }
 }
 
 template <typename T>
-void show(std::string &&title, const std::set<T> &vals) {
-  std::cerr << title << ":\n";
-  std::copy(vals.cbegin(), vals.cend(),
-            std::ostream_iterator<T>(std::cerr, ", "));
-  std::cerr << "\n";
+void show(const char *msg, T val) {
+  std::cout << msg << ": " << val << "\n";
+}
+
+template <class InputIt>
+void show(const char *msg, InputIt first, InputIt last) {
+  bool started = false;
+  std::cout << msg << ": [";
+  for (; first != last; ++first) {
+    if (!started) {
+      std::cout << *first;
+      started = true;
+      continue;
+    }
+    std::cout << ", " << *first;
+  }
+  std::cout << "]\n";
 }
 
 RC_GTEST_PROP(LongestTrueSeq, ReverseCheck,
@@ -247,6 +260,33 @@ RC_GTEST_PROP(FindPeak, ConstructiveCheck, ()) {
   }
   auto actual = vectors::basic::find_peak(arr);
   RC_ASSERT(static_cast<int>(expected) == actual);
+}
+
+RC_GTEST_PROP(CountPairsWithSum, BasicCheck, ()) {
+  const int num = *rc::gen::inRange(10, 20);
+  const int mid = num / 2 - 1;
+  std::vector<int> data;
+  int pairs_count = 0;
+  for (int m = 1; m < mid; m++) {
+    // yes, we want to insert the pair from 0 (no) to 2 times
+    int emplaced = 0;
+    for (int k = 0; k < (int)*rc::gen::weightedElement(
+                            {std::make_pair(1UL, 0), std::make_pair(2UL, 2),
+                             std::make_pair(2UL, 3)});
+         ++k) {
+      data.push_back(m);
+      data.push_back(num - m);
+      ++emplaced;
+    }
+    if (emplaced) {
+      pairs_count += emplaced * emplaced;
+    }
+  }
+  for (int m = *rc::gen::inRange(num + 1, num + 10); m < num + 10; ++m) {
+    data.push_back(m);
+  }
+  rc_shuffle(data.begin(), data.end());
+  RC_ASSERT(pairs_count == vectors::basic::count_pairs_with_sum(data, num));
 }
 
 int main(int argc, char **argv) {

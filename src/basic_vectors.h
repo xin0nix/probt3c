@@ -13,6 +13,7 @@ using hourglass_ty = std::array<std::array<int, 6>, 6>;
 int longest_true_seq(const std::vector<bool> &sequence);
 int count_valleys(const std::vector<bool> &steps);
 int count_even_digit_nums(const std::vector<int> &numbers);
+int count_pairs_with_sum(const std::vector<int> &arr, const int sum);
 void hourglass_visitor(hourglass_ty &arr,
                        std::function<void(std::array<int *, 7>)> &&callback);
 int hourglass_sum(hourglass_ty &arr);

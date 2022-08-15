@@ -57,6 +57,19 @@ int count_even_digit_nums(const std::vector<int> &numbers) {
   return sum;
 }
 
+int count_pairs_with_sum(const std::vector<int> &arr, const int sum) {
+  int cnt = 0;
+  std::unordered_map<int, int> seen;
+  for (int x : arr) {
+    int other = sum - x;
+    if (other > 0) {
+      cnt += seen[other];
+    }
+    seen[x]++;
+  }
+  return cnt;
+}
+
 void hourglass_visitor(hourglass_ty &arr,
                        std::function<void(std::array<int *, 7>)> &&callback) {
   // we assume vector has the right shape
