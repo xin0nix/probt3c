@@ -6,13 +6,18 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(rapidcheck)
 
-add_executable(check check.cc)
-target_link_libraries(check
-  probt3c_impl
-  gtest
-  rapidcheck
-)
-target_include_directories(check PRIVATE 
+add_executable(basic_vectors_check basic_vectors_check.cc)
+target_link_libraries(basic_vectors_check probt3c_impl gtest rapidcheck)
+target_include_directories(basic_vectors_check PRIVATE 
   ${CMAKE_SOURCE_DIR} 
   ${rapidcheck_SOURCE_DIR}/extras/gtest/include/
 )
+
+# TODO: make cmake routine for this
+add_executable(basic_lists_check basic_lists_check.cc)
+target_link_libraries(basic_lists_check probt3c_impl gtest rapidcheck)
+target_include_directories(basic_lists_check PRIVATE 
+  ${CMAKE_SOURCE_DIR} 
+  ${rapidcheck_SOURCE_DIR}/extras/gtest/include/
+)
+

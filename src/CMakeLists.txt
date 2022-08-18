@@ -2,6 +2,7 @@
 add_library(probt3c_impl
     basic_strings.cc
     basic_vectors.cc
+    basic_lists.cc
 )
 
 add_executable(probt3c_exec probt3c.cc)
