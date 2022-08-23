@@ -10,16 +10,7 @@
 
 #include "src/basic_lists.h"
 
-template <class RandomIt>
-void rc_shuffle(RandomIt first, RandomIt last) {
-  typename std::iterator_traits<RandomIt>::difference_type i, n;
-  n = last - first;
-  for (i = n - 1; i > 0; --i) {
-    std::swap(
-        first[i],
-        first[*rc::gen::inRange(0, std::numeric_limits<int>::max()) % (i + 1)]);
-  }
-}
+using namespace lists::basic;
 
 template <typename T>
 void show(const char *msg, T val) {
@@ -46,24 +37,22 @@ RC_GTEST_PROP(GetMiddle, ConstructiveProof, ()) {
   std::vector<int> nums(len);
   std::iota(nums.begin(), nums.end(), 1);
   int expected = nums[len / 2];
-  auto it = nums.begin();
-  std::cout << "---------------------------\n";
-  show("nums", nums.begin(), nums.end());
-  auto head = std::make_unique<lists::basic::Node>(*it);
-  ++it;
-  auto *cur = head.get();
-  std::vector<std::unique_ptr<lists::basic::Node>> nodes;
-  nodes.push_back(std::move(head));
-  while (it != nums.end()) {
-    auto next = std::make_unique<lists::basic::Node>(*it);
-    cur->next = next.get();
-    cur = cur->next;
-    nodes.push_back(std::move(next));
-    ++it;
+  auto nodes = init(nums.begin(), nums.end());
+  int actual = get_middle(nodes[0].get());
+  RC_ASSERT(actual == expected);
+}
+
+RC_GTEST_PROP(GetNthFromEnd, ConstructiveProof, ()) {
+  size_t len = *rc::gen::inRange(1UL, 20UL);
+  size_t nth = *rc::gen::inRange(1UL, len);
+  std::vector<int> nums(len);
+  std::iota(nums.begin(), nums.end(), 1);
+  int expected = -1;
+  if (nth <= len) {
+    expected = nums[nth - 1];
   }
-  int actual = lists::basic::get_middle(nodes[0].get());
-  show("expected", expected);
-  show("actual", actual);
+  auto nodes = init(nums.rbegin(), nums.rend());
+  int actual = get_nth_from_end(nodes[0].get(), nth);
   RC_ASSERT(actual == expected);
 }
 

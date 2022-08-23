@@ -6,6 +6,7 @@
 
 #include <sstream>
 
+#include "src/basic_lists.h"
 #include "src/basic_vectors.h"
 
 namespace vectors {
@@ -65,6 +66,12 @@ TEST_F(BasicVectors, Basic) {
                 ElementsAre(2, 1));
     EXPECT_THAT(vectors::basic::rotate_left_prime({1, 2, 3, 4, 5, 6, 7}, 4),
                 ElementsAre(5, 6, 7, 1, 2, 3, 4));
+  }
+  {
+    SCOPED_TRACE("get_nth_from_end");
+    std::vector nums{1, 2, 3, 4, 5, 6, 7, 8, 9};
+    auto nodes = lists::basic::init(nums.begin(), nums.end());
+    EXPECT_EQ(lists::basic::get_nth_from_end(nodes[0].get(), 2), 8);
   }
 }
 
