@@ -21,3 +21,9 @@ target_include_directories(basic_lists_check PRIVATE
   ${rapidcheck_SOURCE_DIR}/extras/gtest/include/
 )
 
+add_executable(basic_strings_check basic_strings_check.cc)
+target_link_libraries(basic_strings_check probt3c_impl gtest rapidcheck)
+target_include_directories(basic_strings_check PRIVATE 
+  ${CMAKE_SOURCE_DIR} 
+  ${rapidcheck_SOURCE_DIR}/extras/gtest/include/
+)
