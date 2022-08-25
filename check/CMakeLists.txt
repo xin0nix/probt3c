@@ -27,3 +27,11 @@ target_include_directories(basic_strings_check PRIVATE
   ${CMAKE_SOURCE_DIR} 
   ${rapidcheck_SOURCE_DIR}/extras/gtest/include/
 )
+
+add_executable(basic_graphs_check basic_graphs_check.cc)
+target_link_libraries(basic_graphs_check probt3c_impl gtest rapidcheck)
+target_include_directories(basic_graphs_check PRIVATE 
+  ${CMAKE_SOURCE_DIR} 
+  ${rapidcheck_SOURCE_DIR}/extras/gtest/include/
+)
+
